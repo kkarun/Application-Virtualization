@@ -42,7 +42,7 @@ public class AppManager {
     // TODO Requires change in logic
     public void sendApp(String appName) {
         System.out.println("Server to send : " + appName);
-        files = new File("D:/VirtualApps/").listFiles();
+        files = new File(AppVirServerJFrame.getServerAppsPath()).listFiles();
         for (File file : files) {
             if (file.isFile()) {
                 if (file.getName().contains(appName)) {

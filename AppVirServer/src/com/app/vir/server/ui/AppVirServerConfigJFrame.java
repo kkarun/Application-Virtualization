@@ -41,6 +41,8 @@ public class AppVirServerConfigJFrame extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jServerPortTextField = new javax.swing.JTextField();
         jConfigureButton = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jServerAppPathSelectionButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Application Virtualization Server Configuration");
@@ -48,10 +50,19 @@ public class AppVirServerConfigJFrame extends javax.swing.JFrame {
         jLabel2.setText("Server Port");
         jLabel2.setToolTipText("Default is 8900");
 
-        jConfigureButton.setText("Click to Configure Server Port");
+        jConfigureButton.setText("Configure Server");
         jConfigureButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jConfigureButtonActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("Server App Path");
+
+        jServerAppPathSelectionButton.setText("Server Apps Path");
+        jServerAppPathSelectionButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jServerAppPathSelectionButtonActionPerformed(evt);
             }
         });
 
@@ -63,10 +74,14 @@ public class AppVirServerConfigJFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jConfigureButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
-                        .addComponent(jServerPortTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jServerPortTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 204, Short.MAX_VALUE)
+                            .addComponent(jServerAppPathSelectionButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -77,8 +92,12 @@ public class AppVirServerConfigJFrame extends javax.swing.JFrame {
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jServerPortTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jConfigureButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(21, 21, 21))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jServerAppPathSelectionButton))
+                .addGap(18, 18, 18)
+                .addComponent(jConfigureButton)
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -103,13 +122,33 @@ public class AppVirServerConfigJFrame extends javax.swing.JFrame {
 
     private void jConfigureButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jConfigureButtonActionPerformed
         String serverPort = jServerPortTextField.getText();
+        String serverAppsPath = AppsPathChooserJFrame.getPathSelected();
+        Properties props = new Properties();
         if (serverPort != null && !serverPort.isEmpty()) {
-            Properties props = new Properties();     
             props.setProperty(ServerConstants.SERVER_PORT_PROP, serverPort);
-            PropertiesUtil.saveProperties(ServerConstants.SERVER_CONFIG_FILE_NAME, props);
+        } else {
+            props.setProperty(ServerConstants.SERVER_PORT_PROP, "");
         }
+        
+        if (serverAppsPath != null && !serverAppsPath.isEmpty()) {
+            props.setProperty(ServerConstants.SERVER_APP_PATH_PROP, serverAppsPath + "/");
+        } else {
+            props.setProperty(ServerConstants.SERVER_APP_PATH_PROP, "");
+        }
+        
+        PropertiesUtil.saveProperties(ServerConstants.SERVER_CONFIG_FILE_NAME, props);
+        
         this.dispose();
     }//GEN-LAST:event_jConfigureButtonActionPerformed
+
+    private void jServerAppPathSelectionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jServerAppPathSelectionButtonActionPerformed
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new AppsPathChooserJFrame().setVisible(true);
+            }
+        });
+    }//GEN-LAST:event_jServerAppPathSelectionButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -152,8 +191,10 @@ public class AppVirServerConfigJFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jConfigureButton;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JButton jServerAppPathSelectionButton;
     private javax.swing.JTextField jServerPortTextField;
     // End of variables declaration//GEN-END:variables
 }

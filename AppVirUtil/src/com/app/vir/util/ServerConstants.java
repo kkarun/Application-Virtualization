@@ -14,8 +14,10 @@ public interface ServerConstants {
     
     public static final String SERVER_PORT_PROP = "app.vir.ser.port";
     
-    public static final String WINDOWS_SERVER_PATH = "D:/VirtualApps/";
+    //public static final String WINDOWS_SERVER_PATH = "D:/VirtualApps/";
     
-    public static final String LINUX_SERVER_PATH = "/var/VirtualApps/";
+    //public static final String LINUX_SERVER_PATH = "/var/VirtualApps/";
+    
+    public static final String SERVER_APP_PATH_PROP = "app.vir.server.apps.path"; 
     
 }

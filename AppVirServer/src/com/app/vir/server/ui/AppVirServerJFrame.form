@@ -40,7 +40,7 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="jConfigurePortMenuItem">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Configure Ports"/>
+                <Property name="text" type="java.lang.String" value="Configure Server"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jConfigurePortMenuItemActionPerformed"/>
@@ -48,7 +48,7 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jReconfigureMenuItem">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Reconfigure Server"/>
+                <Property name="text" type="java.lang.String" value="Reload Server Settings"/>
               </Properties>
               <AccessibilityProperties>
                 <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="jResetServerMenuItem"/>

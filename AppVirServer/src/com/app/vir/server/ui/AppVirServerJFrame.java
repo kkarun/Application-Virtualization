@@ -21,6 +21,8 @@ public class AppVirServerJFrame extends javax.swing.JFrame {
 
     private String serverPort = null;
     
+    private static String serverAppsPath = null;
+    
     private ConnectionServer connServer = null;
     
     private static String appListString = null;
@@ -29,8 +31,8 @@ public class AppVirServerJFrame extends javax.swing.JFrame {
      */
     public AppVirServerJFrame() {
         initComponents();
-        refreshAppList();
         loadServerConfigs();
+        refreshAppList();
         initServerListenPort();
     }
 
@@ -38,6 +40,11 @@ public class AppVirServerJFrame extends javax.swing.JFrame {
         Properties prop = PropertiesUtil.getProperty(ServerConstants.SERVER_CONFIG_FILE_NAME);
         System.out.println ("Server Port loaded : " + prop.getProperty(ServerConstants.SERVER_PORT_PROP));
         serverPort = prop.getProperty(ServerConstants.SERVER_PORT_PROP);
+        serverAppsPath = prop.getProperty(ServerConstants.SERVER_APP_PATH_PROP);
+    }
+    
+    public static String getServerAppsPath() {
+        return serverAppsPath;
     }
     
     private void initServerListenPort () {
@@ -170,7 +177,7 @@ public class AppVirServerJFrame extends javax.swing.JFrame {
 
         jMenu3.setText("Configuration");
 
-        jConfigurePortMenuItem.setText("Configure Ports");
+        jConfigurePortMenuItem.setText("Configure Server");
         jConfigurePortMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jConfigurePortMenuItemActionPerformed(evt);
@@ -178,7 +185,7 @@ public class AppVirServerJFrame extends javax.swing.JFrame {
         });
         jMenu3.add(jConfigurePortMenuItem);
 
-        jReconfigureMenuItem.setText("Reconfigure Server");
+        jReconfigureMenuItem.setText("Reload Server Settings");
         jReconfigureMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jReconfigureMenuItemActionPerformed(evt);
@@ -258,10 +265,11 @@ public class AppVirServerJFrame extends javax.swing.JFrame {
             connServer.closeServerSocket();
         }
         initServerListenPort();
+        refreshAppList();
     }//GEN-LAST:event_jReconfigureMenuItemActionPerformed
 
     private void refreshAppList () {
-        String appPath = null;
+        /*String appPath = null;
         if (HostDetailsUtil.isWindows()) {
             System.out.println("Windows system employed for running server");
             appPath = ServerConstants.WINDOWS_SERVER_PATH;
@@ -271,9 +279,9 @@ public class AppVirServerJFrame extends javax.swing.JFrame {
         } else {
             System.out.println("No OS info, defaulting to windows");
             appPath = ServerConstants.WINDOWS_SERVER_PATH;
-        }
+        }*/
         
-        File[] files = new File(appPath).listFiles();
+        File[] files = new File(serverAppsPath).listFiles();
         
         DefaultListModel model = new DefaultListModel(); 
         jServerAppList.setModel(model);  
